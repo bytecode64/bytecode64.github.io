@@ -3,26 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome</title>
-    <style>
-        body { font-family: Arial, sans-serif; text-align: center; padding-top: 50px; }
-        h2 { font-size: 24px; }
-    </style>
+    <title>Index Page</title>
 </head>
 <body>
-    <h2>Welcome, <span id="username"></span>!</h2>
+    <h1>Welcome, <span id="username"></span>!</h1>
 
     <script>
-        // Check if the token is present in localStorage
-        const token = localStorage.getItem('authToken');
+        // Get the authToken from localStorage
+        const authToken = localStorage.getItem('authToken');
 
-        if (!token) {
-            // Redirect to login if no token is found (user not logged in)
-            window.location.href = 'login.html';
+        // Check if the token exists
+        if (authToken) {
+            // Decode the token to get the username
+            const decodedToken = JSON.parse(atob(authToken.split('.')[1]));
+            const username = decodedToken.username;
+
+            // Display the username in the HTML
+            document.getElementById('username').textContent = username;
         } else {
-            // Decode the token (Base64 decode)
-            const username = atob(token);  // Decode the Base64-encoded username
-            document.getElementById('username').textContent = username;  // Display the username
+            // If there's no token, redirect to login page
+            window.location.href = 'login.html';
         }
     </script>
 </body>
