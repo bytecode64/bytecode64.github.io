@@ -3,56 +3,26 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Home</title>
+    <title>Welcome</title>
     <style>
-        body {
-            font-family: Arial, sans-serif;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            height: 100vh;
-            margin: 0;
-        }
-        .container {
-            text-align: center;
-        }
-        .username {
-            font-size: 2em;
-            font-weight: bold;
-        }
+        body { font-family: Arial, sans-serif; text-align: center; padding-top: 50px; }
+        h2 { font-size: 24px; }
     </style>
 </head>
 <body>
-    <div class="container">
-        <div id="loginMessage">
-            <p>You are not logged in. Please <a href="register.html">register</a> or <a href="login.html">login</a>.</p>
-        </div>
-        <div id="usernameDisplay" style="display: none;">
-            <p class="username" id="username">Welcome, </p>
-        </div>
-    </div>
+    <h2>Welcome, <span id="username"></span>!</h2>
 
     <script>
-        // Check if the token exists in localStorage
-        const token = localStorage.getItem('token');
+        // Check if the token is present in localStorage
+        const token = localStorage.getItem('authToken');
 
-        if (token) {
-            // Decode the token to get the username
-            try {
-                const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decode JWT token
-                const username = decodedToken.username;
-                
-                // Display username and hide the login message
-                document.getElementById('loginMessage').style.display = 'none';
-                document.getElementById('username').textContent = `Welcome, ${username}`;
-                document.getElementById('usernameDisplay').style.display = 'block';
-            } catch (error) {
-                console.error('Invalid token:', error);
-                localStorage.removeItem('token');
-                window.location.href = 'login.html'; // Invalid token, redirect to login
-            }
+        if (!token) {
+            // Redirect to login if no token is found (user not logged in)
+            window.location.href = 'login.html';
         } else {
-            window.location.href = 'register.html'; // No token, redirect to register
+            // Decode the token (Base64 decode)
+            const username = atob(token);  // Decode the Base64-encoded username
+            document.getElementById('username').textContent = username;  // Display the username
         }
     </script>
 </body>
