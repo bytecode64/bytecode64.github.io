@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+        }
+        .container {
+            text-align: center;
+        }
+        .username {
+            font-size: 2em;
+            font-weight: bold;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div id="loginMessage">
+            <p>You are not logged in. Please <a href="register.html">register</a> or <a href="login.html">login</a>.</p>
+        </div>
+        <div id="usernameDisplay" style="display: none;">
+            <p class="username" id="username">Welcome, </p>
+        </div>
+    </div>
+
+    <script>
+        // Check if the token exists in localStorage
+        const token = localStorage.getItem('token');
+
+        if (token) {
+            // Decode the token to get the username
+            try {
+                const decodedToken = JSON.parse(atob(token.split('.')[1])); // Decode JWT token
+                const username = decodedToken.username;
+                
+                // Display username and hide the login message
+                document.getElementById('loginMessage').style.display = 'none';
+                document.getElementById('username').textContent = `Welcome, ${username}`;
+                document.getElementById('usernameDisplay').style.display = 'block';
+            } catch (error) {
+                console.error('Invalid token:', error);
+                localStorage.removeItem('token');
+                window.location.href = 'login.html'; // Invalid token, redirect to login
+            }
+        } else {
+            window.location.href = 'register.html'; // No token, redirect to register
+        }
+    </script>
+</body>
+</html>
