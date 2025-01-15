@@ -29,7 +29,12 @@
             });
 
             const result = await response.json();
-            alert(result.message || 'Registered successfully!');
+            alert(result.message || 'Registered successfully! Redirecting to login...');
+            
+            if (response.ok) {
+                // Redirect to the login page after successful registration
+                window.location.href = 'login.html';
+            }
         });
     </script>
 </body>
