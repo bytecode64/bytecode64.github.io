@@ -29,7 +29,14 @@
             });
 
             const result = await response.json();
-            alert(result.message || (response.ok ? 'Login successful!' : 'Login failed!'));
+            alert(result.message || (response.ok ? 'Login successful! Redirecting to homepage...' : 'Login failed!'));
+
+            if (response.ok) {
+                // Store token in localStorage
+                localStorage.setItem('token', result.token);
+                // Redirect to index.html after successful login
+                window.location.href = 'index.html';
+            }
         });
     </script>
 </body>
