@@ -35,7 +35,10 @@
             .then(responseData => {
                 alert(responseData.message);
                 if (responseData.message === 'Login successful!') {
-                    window.location.href = 'index.html';  // Redirect to index page after successful login
+                    // Create an encoded token with the username
+                    const encodedUsername = btoa(username);  // Base64 encode the username
+                    localStorage.setItem('authToken', encodedUsername);  // Store the token in localStorage
+                    window.location.href = 'index.html';  // Redirect to the home page
                 }
             })
             .catch(error => console.error('Error:', error));
