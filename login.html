@@ -34,11 +34,11 @@
             .then(response => response.json())
             .then(responseData => {
                 alert(responseData.message);
+
                 if (responseData.message === 'Login successful!') {
-                    // Create an encoded token with the username
-                    const encodedUsername = btoa(username);  // Base64 encode the username
-                    localStorage.setItem('authToken', encodedUsername);  // Store the token in localStorage
-                    window.location.href = 'index.html';  // Redirect to the home page
+                    const token = responseData.token; // Get the JWT token
+                    localStorage.setItem('authToken', token); // Store the token in localStorage
+                    window.location.href = 'index.html'; // Redirect to index.html
                 }
             })
             .catch(error => console.error('Error:', error));
@@ -46,5 +46,3 @@
     </script>
 </body>
 </html>
-
-// idek
